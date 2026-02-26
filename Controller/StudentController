@@ -1,0 +1,79 @@
+package com.example.Trial.controller;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.Trial.model.Student;
+import com.example.Trial.repository.StudentRepository;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+@RequestMapping("/student")
+public class StudentController {
+
+    @Autowired
+    private StudentRepository studentRepo;
+
+    // =========================
+    // OPEN LOGIN PAGE
+    // =========================
+    @GetMapping("/login")
+    public String loginPage() {
+        return "student-login";
+    }
+
+    // =========================
+    // PROCESS LOGIN
+    // =========================
+    @PostMapping("/login")
+    public String login(@RequestParam String email,
+                        @RequestParam String password,
+                        HttpSession session,
+                        Model model) {
+
+        Optional<Student> studentOpt = studentRepo.findByEmail(email);
+
+        if (studentOpt.isPresent() &&
+            studentOpt.get().getPassword().equals(password)) {
+
+            session.setAttribute("loggedStudent", studentOpt.get());
+            return "redirect:/student/dashboard";
+        }
+
+        model.addAttribute("error", "Invalid email or password");
+        return "student-login";
+    }
+
+    // =========================
+    // DASHBOARD
+    // =========================
+    @GetMapping("/dashboard")
+    public String dashboard(HttpSession session, Model model) {
+
+        Student student = (Student) session.getAttribute("loggedStudent");
+
+        if (student == null) {
+            return "redirect:/student/login";
+        }
+
+        model.addAttribute("student", student);
+        return "student-dashboard";
+    }
+
+    // =========================
+    // LOGOUT
+    // =========================
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/student/login";
+    }
+}
