@@ -1,0 +1,28 @@
+package com.example.Trial.model;
+
+import jakarta.persistence.Entity;   // JPA annotations
+import jakarta.persistence.GeneratedValue;               // Lombok (auto generate getters/setters)
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity   // This class is a database table
+@Table(name = "admins")  // Table name in MySQL
+@Getter   // Automatically creates getters
+@Setter   // Automatically creates setters
+@NoArgsConstructor  // Empty constructor
+@AllArgsConstructor // Constructor with all fields
+public class Admin {
+
+    @Id   // Primary Key
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Auto increment ID in database
+    private Long id;
+
+    private String username;   // Admin username
+    private String password;   // Admin password
+}
