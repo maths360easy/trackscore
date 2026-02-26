@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center">
+        <h3>Welcome <span th:text="${student.name}"></span> 🎓</h3>
+        <a href="/student/logout" class="btn btn-danger">Logout</a>
+    </div>
+
+    <!-- STUDENT DETAILS -->
+    <div class="card shadow mt-3 p-3">
+
+        <p><b>Course:</b> <span th:text="${student.course}"></span></p>
+        <p><b>Grade:</b> <span th:text="${student.grade}"></span></p>
+        <p><b>Progress:</b> <span th:text="${student.progress}"></span>%</p>
+        <p><b>Fees Paid:</b> €<span th:text="${student.feesPaid}"></span></p>
+
+    </div>
+
+    <!-- GRAPH -->
+    <div class="card shadow mt-4 p-3">
+        <h5>Performance Graph</h5>
+        <canvas id="chart"></canvas>
+    </div>
+
+</div>
+
+<!-- ✅ THYMELEAF INLINE FIX -->
+<script th:inline="javascript">
+
+    const ctx = document.getElementById('chart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Grade', 'Progress'],
+            datasets: [{
+                label: 'Performance',
+                data: [
+                    /*[[${student.grade}]]*/,
+                    /*[[${student.progress}]]*/
+                ]
+            }]
+        }
+    });
+
+</script>
+
+</body>
+</html>
