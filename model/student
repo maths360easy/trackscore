@@ -1,0 +1,78 @@
+package com.example.Trial.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Student {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private String email;
+    private String password;
+    private String course;
+    private int progress;
+    
+   @Column(name = "fees_paid")
+
+    private double feesPaid;   
+    private int attendance;    
+    private int grade;
+    
+
+    public Long getId() { return id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+     
+
+    public String getCourse() { return course; }
+    public void setCourse(String course) { this.course = course; }
+
+    public int getProgress() { return progress; }
+    public void setProgress(int progress) { this.progress = progress; }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+   
+    public double getFeesPaid() {
+        return feesPaid;
+    }
+
+    public void setFeesPaid(double feesPaid) {
+        this.feesPaid = feesPaid;
+    }
+
+    public int getAttendance() {
+        return attendance;
+    }
+
+    public void setAttendance(int attendance) {
+        this.attendance = attendance;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+}
